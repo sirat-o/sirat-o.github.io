@@ -3,20 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Tools Collection</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>My ToolBox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --primary: #00ffe1;
       --primary-dark: #00c9b1;
+      --primary-light: rgba(0, 255, 225, 0.1);
       --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-gradient-alt: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
       --card-bg: rgba(255, 255, 255, 0.08);
-      --text-light: rgba(255, 255, 255, 0.9);
+      --card-bg-hover: rgba(255, 255, 255, 0.12);
+      --text-light: rgba(255, 255, 255, 0.95);
       --text-muted: rgba(255, 255, 255, 0.6);
       --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --transition-slow: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
       --shadow: 0 4px 20px rgba(0, 255, 225, 0.1);
       --shadow-hover: 0 8px 30px rgba(0, 255, 225, 0.3);
+      --border-radius: 12px;
+      --border-radius-lg: 20px;
+      --border-radius-sm: 8px;
     }
     
     * {
@@ -36,10 +43,15 @@
       justify-content: center;
       padding: 40px 20px;
       line-height: 1.6;
+      transition: var(--transition-slow);
+    }
+    
+    body.theme-alt {
+      background: var(--bg-gradient-alt);
     }
     
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       width: 100%;
       margin: 0 auto;
       padding: 0 20px;
@@ -60,6 +72,8 @@
       color: transparent;
       position: relative;
       display: inline-block;
+      font-weight: 700;
+      letter-spacing: -1px;
     }
     
     h1::after {
@@ -82,58 +96,114 @@
     }
     
     .search-container {
-      max-width: 600px;
+      max-width: 700px;
       margin: 30px auto 40px;
       position: relative;
     }
     
+    .search-wrapper {
+      position: relative;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
     .search-input {
       width: 100%;
-      padding: 15px 20px 15px 50px;
-      border-radius: 50px;
+      padding: 18px 25px 18px 60px;
+      border-radius: var(--border-radius);
       border: none;
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       color: white;
-      font-size: 1rem;
+      font-size: 1.1rem;
       transition: var(--transition);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      font-family: 'JetBrains Mono', monospace;
     }
     
     .search-input:focus {
       outline: none;
       background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 0 0 2px var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
     }
     
     .search-icon {
       position: absolute;
-      left: 20px;
+      left: 25px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+    
+    .search-clear {
+      position: absolute;
+      right: 20px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
+      cursor: pointer;
+      opacity: 0;
+      transition: var(--transition);
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+    }
+    
+    .search-clear.visible {
+      opacity: 1;
+    }
+    
+    .search-clear:hover {
+      color: var(--primary);
+    }
+    
+    .search-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+      justify-content: center;
+    }
+    
+    .search-tag {
+      padding: 5px 12px;
+      background: var(--primary-light);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--primary);
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid rgba(0, 255, 225, 0.2);
+    }
+    
+    .search-tag:hover {
+      background: var(--primary);
+      color: #0f2027;
     }
     
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
     }
     
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      position: relative;
-      overflow: hidden;
-    }
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+}
     
     .card::before {
       content: '';
@@ -141,65 +211,111 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 3px;
-      background: var(--primary);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s ease;
+      height: 100%;
+      background: radial-gradient(circle at 70% 20%, rgba(0, 255, 225, 0.1) 0%, transparent 60%);
+      opacity: 0;
+      transition: var(--transition);
     }
     
     .card:hover {
       transform: translateY(-8px);
       box-shadow: var(--shadow-hover);
+      background: var(--card-bg-hover);
     }
     
     .card:hover::before {
-      transform: scaleX(1);
+      opacity: 1;
     }
     
-    .icon {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 60px;
-    }
+.card-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 3px 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary);
+  border: 1px solid rgba(0, 255, 225, 0.2);
+}
     
-    .icon i {
-      font-size: 2.5rem;
-      color: var(--primary);
-      transition: var(--transition);
-    }
+.icon {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  position: relative;
+}
+
+.icon i {
+  font-size: 2rem;
+  color: var(--primary);
+  transition: var(--transition);
+  position: relative;
+  z-index: 2;
+}
+
+.icon::before {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: var(--primary-light);
+  border-radius: 50%;
+  opacity: 0.5;
+  z-index: 1;
+  transition: var(--transition);
+}
     
     .card:hover .icon i {
       transform: scale(1.1);
     }
     
+    .card:hover .icon::before {
+      transform: scale(1.2);
+      opacity: 0.8;
+    }
+    
     .card-title {
-      font-size: 1.4rem;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-    
-    .card-desc {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-      flex-grow: 1;
-    }
-    
-    .card-link {
-      display: inline-flex;
-      align-items: center;
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-      margin-top: auto;
-    }
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+}
+
+.card-desc {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+  flex-grow: 1;
+  position: relative;
+  z-index: 2;
+  line-height: 1.6;
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.9rem;
+}
     
     .card-link:hover {
       color: white;
+      background: var(--primary-light);
     }
     
     .card-link i {
@@ -208,36 +324,93 @@
     }
     
     .card-link:hover i {
-      transform: translateX(3px);
+      transform: translateX(5px);
     }
     
     .category-filter {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
       margin-bottom: 30px;
     }
     
     .category-btn {
-      padding: 8px 20px;
-      border-radius: 50px;
+      padding: 10px 22px;
+      border-radius: var(--border-radius);
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-light);
       cursor: pointer;
       transition: var(--transition);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .category-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, var(--primary), #00ffaa);
+      opacity: 0;
+      transition: var(--transition);
     }
     
     .category-btn:hover, .category-btn.active {
-      background: var(--primary);
       color: #0f2027;
       border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .category-btn.active::before, .category-btn:hover::before {
+      opacity: 1;
+    }
+    
+    .category-btn span {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .category-btn i {
+      position: relative;
+      z-index: 2;
+      font-size: 0.9rem;
+    }
+    
+    .category-btn.active i, .category-btn:hover i {
+      color: #0f2027;
+    }
+    
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      display: none;
+    }
+    
+    .no-results i {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      opacity: 0.5;
+    }
+    
+    .no-results h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--text-light);
     }
     
     .footer {
-      margin-top: 60px;
+      margin-top: 80px;
       text-align: center;
       font-size: 1rem;
       color: var(--text-muted);
@@ -250,21 +423,35 @@
     
     .social-links {
       display: flex;
-      gap: 15px;
+      gap: 20px;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 25px;
     }
     
     .social-links a {
       color: var(--text-muted);
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       transition: var(--transition);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
     }
     
     .social-links a:hover {
       color: var(--primary);
       transform: translateY(-3px);
+      background: rgba(0, 255, 225, 0.1);
     }
+    .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 40px;
+}
+    
     
     @media (max-width: 768px) {
       h1 {
@@ -275,210 +462,362 @@
         font-size: 1rem;
       }
       
-      .grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+  }
+  
+  .card {
+    padding: 18px;
+    min-height: 260px;
+  }
+      
+      .search-input {
+        padding: 15px 20px 15px 50px;
+        font-size: 1rem;
+      }
+      
+      .search-icon {
+        left: 20px;
+      }
+      
+      .category-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
       }
     }
+    
+    /* Animation classes */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1><i class="fas fa-tools"></i> My Tools Collection</h1>
+      <h1><i class="fas fa-tools"></i> Toolbox</h1>
       <p class="subtitle">A curated collection of powerful web tools to simplify your workflow and boost productivity</p>
       
       <div class="search-container">
-        <i class="fas fa-search search-icon"></i>
-        <input type="text" class="search-input" placeholder="Search tools...">
+        <div class="search-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input" placeholder="Search tools by name, description or category...">
+          <button class="search-clear"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="search-tags">
+          <div class="search-tag">#PDF</div>
+          <div class="search-tag">#Image</div>
+          <div class="search-tag">#Development</div>
+          <div class="search-tag">#Utilities</div>
+          <div class="search-tag">#Converter</div>
+        </div>
       </div>
       
       <div class="category-filter">
-        <button class="category-btn active" data-category="all">All</button>
-        <button class="category-btn" data-category="pdf">PDF Tools</button>
-        <button class="category-btn" data-category="image">Image Tools</button>
-        <button class="category-btn" data-category="development">Development</button>
-        <button class="category-btn" data-category="utilities">Utilities</button>
+        <button class="category-btn active" data-category="all">
+          <i class="fas fa-th-large"></i>
+          <span>All Tools</span>
+        </button>
+        <button class="category-btn" data-category="pdf">
+          <i class="fas fa-file-pdf"></i>
+          <span>PDF Tools</span>
+        </button>
+        <button class="category-btn" data-category="image">
+          <i class="fas fa-image"></i>
+          <span>Image Tools</span>
+        </button>
+        <button class="category-btn" data-category="development">
+          <i class="fas fa-code"></i>
+          <span>Development</span>
+        </button>
+        <button class="category-btn" data-category="utilities">
+          <i class="fas fa-tools"></i>
+          <span>Utilities</span>
+        </button>
+        <button class="category-btn" data-category="converter">
+          <i class="fas fa-exchange-alt"></i>
+          <span>Converters</span>
+        </button>
       </div>
     </header>
     
     <div class="grid">
-      <div class="card" data-categories="pdf">
+      <div class="card fade-in delay-1" data-categories="pdf converter">
+        <div class="card-badge">PDF</div>
         <div class="icon">
           <i class="fa-regular fa-images"></i>
         </div>
         <h3 class="card-title">PDF To JPG</h3>
-        <p class="card-desc">Convert PDF documents to high-quality JPG images with customizable settings.</p>
+        <p class="card-desc">Convert PDF documents to high-quality JPG images with customizable settings including DPI, quality, and output format options.</p>
         <a href="https://mish0as.github.io/PDF-To-JPG/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="pdf">
+      <div class="card fade-in delay-2" data-categories="pdf converter">
+        <div class="card-badge">PDF</div>
         <div class="icon">
           <i class="fas fa-images"></i>
         </div>
         <h3 class="card-title">PDF Image Extractor</h3>
-        <p class="card-desc">Extract all images from PDF files with one click, preserving quality.</p>
+        <p class="card-desc">Extract all images from PDF files with one click, preserving original quality and supporting batch processing of multiple files.</p>
         <a href="https://pdf-image-extractor.onrender.com/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="development">
+      <div class="card fade-in delay-3" data-categories="development">
+        <div class="card-badge">Dev</div>
         <div class="icon">
           <i class="fas fa-code"></i>
         </div>
         <h3 class="card-title">HTML Editor</h3>
-        <p class="card-desc">Real-time HTML editor with live preview and syntax highlighting.</p>
+        <p class="card-desc">Real-time HTML editor with live preview, syntax highlighting, code completion and export options for your web projects.</p>
         <a href="https://mish0as.github.io/html-editor/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="image">
+      <div class="card fade-in delay-4" data-categories="image">
+        <div class="card-badge">Image</div>
         <div class="icon">
           <i class="fas fa-eye-dropper"></i>
         </div>
         <h3 class="card-title">Color Picker From Image</h3>
-        <p class="card-desc">Extract color codes from any image with advanced color analysis.</p>
+        <p class="card-desc">Extract color palettes from any image with advanced color analysis, HEX/RGB/HSL codes, and palette export options.</p>
         <a href="https://mish0as.github.io/color_picker/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="image">
+      <div class="card fade-in delay-5" data-categories="image converter">
+        <div class="card-badge">Image</div>
         <div class="icon">
           <i class="fas fa-exchange-alt"></i>
         </div>
         <h3 class="card-title">Image Converter</h3>
-        <p class="card-desc">Convert between multiple image formats (JPG, PNG, WEBP, etc.) with quality control.</p>
+        <p class="card-desc">Convert between multiple image formats (JPG, PNG, WEBP, GIF, etc.) with quality control, batch processing, and resize options.</p>
         <a href="https://mish0as.github.io/image-converter/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="utilities">
+      <div class="card fade-in delay-1" data-categories="utilities">
+        <div class="card-badge">Utility</div>
         <div class="icon">
           <i class="fas fa-clock"></i>
         </div>
         <h3 class="card-title">Countdown Timer</h3>
-        <p class="card-desc">Customizable countdown timer with multiple display options and alerts.</p>
+        <p class="card-desc">Customizable countdown timer with multiple display options, alerts, fullscreen mode, and the ability to save presets.</p>
         <a href="https://mish0as.github.io/countdown-timer/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="image">
+      <div class="card fade-in delay-2" data-categories="image converter">
+        <div class="card-badge">Video</div>
         <div class="icon">
           <i class="fas fa-film"></i>
         </div>
         <h3 class="card-title">Video to Image</h3>
-        <p class="card-desc">Extract frames from videos and save them as images at custom intervals.</p>
+        <p class="card-desc">Extract frames from videos at custom intervals, with options for quality, format, and batch download of all frames.</p>
         <a href="https://mish0as.github.io/videotoimage/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="utilities">
+      <div class="card fade-in delay-3" data-categories="utilities">
+        <div class="card-badge">Security</div>
         <div class="icon">
           <i class="fas fa-key"></i>
         </div>
         <h3 class="card-title">Password Generator</h3>
-        <p class="card-desc">Generate secure passwords with customizable length and character sets.</p>
+        <p class="card-desc">Generate secure passwords with customizable length, character sets, pronounceable options, and strength meter.</p>
         <a href="https://mish0as.github.io/password-generator/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="utilities">
+      <div class="card fade-in delay-4" data-categories="utilities">
+        <div class="card-badge">Utility</div>
         <div class="icon">
-        <i class="fas fa-birthday-cake"></i>
+          <i class="fas fa-birthday-cake"></i>
         </div>
         <h3 class="card-title">Age Calculator</h3>
-        <p class="card-desc">Calculate your exact age in years, months, and days instantly from any birthdate.</p>
+        <p class="card-desc">Calculate exact age in years, months, and days with additional features like zodiac signs and countdown to next birthday.</p>
         <a href="https://mish0as.github.io/age-calculator/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
-      <div class="card" data-categories="utilities">
+
+      <div class="card fade-in delay-5" data-categories="development">
+        <div class="card-badge">Markdown</div>
         <div class="icon">
-        <i class="fa-brands fa-markdown"></i> 
+          <i class="fa-brands fa-markdown"></i> 
         </div>
         <h3 class="card-title">Markdown Editor</h3>
-        <p class="card-desc">Create and edit Markdown content with live preview, syntax highlighting, and export options for PDF, HTML, and image formats.</p>
+        <p class="card-desc">Create and edit Markdown with live preview, syntax highlighting, and export to PDF, HTML, or image formats with custom styling.</p>
         <a href="https://mish0as.github.io/md-editor/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
-      <div class="card" data-categories="image">
+
+      <div class="card fade-in delay-1" data-categories="image">
+        <div class="card-badge">Image</div>
         <div class="icon">
-        <i class="fa-solid fa-eye-slash"></i> 
+          <i class="fa-solid fa-eye-slash"></i> 
         </div>
         <h3 class="card-title">CutMask-Image Section Remover</h3>
-        <p class="card-desc">Remove unwanted sections or black-out areas in your image.</p>
+        <p class="card-desc">Remove unwanted sections or black-out areas in your image with precision tools, blur effects, and multiple masking options.</p>
         <a href="https://mish0as.github.io/image-section-remover/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="image">
+      <div class="card fade-in delay-2" data-categories="pdf converter image">
+        <div class="card-badge">PDF</div>
         <div class="icon">
-        <i class="fa-solid fa-file-pdf"></i> 
+          <i class="fa-solid fa-file-pdf"></i> 
         </div>
         <h3 class="card-title">Image to PDF Converter</h3>
-        <p class="card-desc">Convert images to high-quality PDF with customizable settings.</p>
+        <p class="card-desc">Convert multiple images to high-quality PDF with customizable page size, orientation, margins, and compression settings.</p>
         <a href="https://mish0as.github.io/image-to-pdf/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="card" data-categories="image">
+      <div class="card fade-in delay-3" data-categories="image">
+        <div class="card-badge">Image</div>
         <div class="icon">
-        <i class="fas fa-image"></i> 
+          <i class="fas fa-image"></i> 
         </div>
-        <h3 class="card-title"> Image Processor</h3>
-        <p class="card-desc">Resize, compress, and optimize multiple images with full control over dimensions and file size</p>
+        <h3 class="card-title">Image Processor</h3>
+        <p class="card-desc">Resize, compress, and optimize multiple images with full control over dimensions, quality, and batch processing options.</p>
         <a href="https://mish0as.github.io/Image_Processor/" target="_blank" class="card-link">Open Tool <i class="fas fa-arrow-right"></i></a>
       </div>
+
+      <div class="no-results">
+        <i class="fas fa-search"></i>
+        <h3>No tools found</h3>
+        <p>Try adjusting your search or filter criteria</p>
+      </div>
     </div>
+
     <div class="footer">
       <div class="social-links">
-        <a href="https://github.com/mish0as/" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="#" target="_blank"><i class="fas fa-envelope"></i></a>
+        <a href="https://github.com/mish0as/" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="#" target="_blank" title="Email"><i class="fas fa-envelope"></i></a>
       </div>
       <p>Developed with <i class="fas fa-heart" style="color: #ff4757;"></i> by <span>MAS</span></p>
-      <p style="font-size: 0.8rem; margin-top: 5px;">© 2025 All Rights Reserved</p>
+      <p style="font-size: 0.8rem; margin-top: 5px;">© 2025 All Rights Reserved | Version 2.0</p>
     </div>
   </div>
   
-  <script>
-    // Search functionality
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // DOM elements
     const searchInput = document.querySelector('.search-input');
+    const searchClear = document.querySelector('.search-clear');
+    const searchTags = document.querySelectorAll('.search-tag');
     const cards = document.querySelectorAll('.card');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const noResults = document.querySelector('.no-results');    
+    // Tool data extracted from cards
+    const toolsData = Array.from(cards).map(card => ({
+      element: card,
+      titleWords: card.querySelector('.card-title').textContent.toLowerCase().split(/\s+/),
+      badge: card.querySelector('.card-badge') ? card.querySelector('.card-badge').textContent.toLowerCase() : '',
+      categories: card.dataset.categories.split(' ')
+    }));
     
-    searchInput.addEventListener('input', () => {
-      const searchTerm = searchInput.value.toLowerCase();
-      
-      cards.forEach(card => {
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        const desc = card.querySelector('.card-desc').textContent.toLowerCase();
-        
-        if (title.includes(searchTerm) || desc.includes(searchTerm)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+    // Debounce function for performance
+    function debounce(func, wait) {
+      let timeout;
+      return function() {
+        const context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+      };
+    }
+    
+    // Check if any word in array starts with search term
+    function startsWithAnyWord(words, searchTerm) {
+      return words.some(word => word.startsWith(searchTerm));
+    }
+    
+    // Update clear button visibility
+    function updateClearButton() {
+      if (searchInput.value.trim() !== '') {
+        searchClear.classList.add('visible');
+      } else {
+        searchClear.classList.remove('visible');
+      }
+    }
+    
+    // Search functionality with debounce
+    searchInput.addEventListener('input', debounce(() => {
+      performSearch();
+      updateClearButton();
+    }, 300));
+    
+    // Clear search
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      searchClear.classList.remove('visible');
+      performSearch();
+      searchInput.focus();
+    });
+    
+    // Search tags functionality
+    searchTags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        searchInput.value = tag.textContent.replace('#', '');
+        searchClear.classList.add('visible');
+        performSearch();
       });
     });
     
     // Category filter functionality
-    const categoryBtns = document.querySelectorAll('.category-btn');
-    
     categoryBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         // Remove active class from all buttons
         categoryBtns.forEach(b => b.classList.remove('active'));
         // Add active class to clicked button
         btn.classList.add('active');
-        
-        const category = btn.dataset.category;
-        
-        if (category === 'all') {
-          cards.forEach(card => {
-            card.style.display = 'flex';
-          });
-          return;
-        }
-        
-        cards.forEach(card => {
-          const cardCategories = card.dataset.categories;
-          
-          if (cardCategories.includes(category)) {
-            card.style.display = 'flex';
-          } else {
-            card.style.display = 'none';
-          }
-        });
+        performSearch();
       });
     });
-  </script>
+    
+    // Perform combined search and filter
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+      
+      let visibleCards = 0;
+      
+      toolsData.forEach(tool => {
+        // Check category filter
+        const categoryMatch = activeCategory === 'all' || tool.categories.includes(activeCategory);
+        
+        // Check for matches:
+        // 1. Any complete word in title starts with search term OR
+        // 2. Badge exactly matches search term
+        const nameMatch = searchTerm === '' || 
+                         startsWithAnyWord(tool.titleWords, searchTerm) || 
+                         tool.badge === searchTerm;
+        
+        // Check if tool should be visible
+        const shouldShow = categoryMatch && nameMatch;
+        
+        if (shouldShow) {
+          tool.element.style.display = 'flex';
+          visibleCards++;
+        } else {
+          tool.element.style.display = 'none';
+        }
+      });
+      
+      // Show no results message if needed
+      if (visibleCards === 0) {
+        noResults.style.display = 'block';
+      } else {
+        noResults.style.display = 'none';
+      }
+    }
+    
+    // Initialize
+    performSearch();
+  });
+</script>
 </body>
 </html>
